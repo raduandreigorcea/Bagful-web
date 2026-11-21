@@ -4,39 +4,42 @@ const year = new Date().getFullYear();
 ---
 
 <footer>
-	<div class="wrap row">
-		<p class="brand">
-			<img src="/icons/pwa-192.png" alt="" width="32" height="32" />
-			<span>Bagful</span>
-		</p>
-		<nav aria-label="Legal and source">
-			<a href="/privacy">Privacy</a>
-			<a href="/terms">Terms</a>
-			<a href={site.repoUrl} rel="noopener">Source on GitHub</a>
-		</nav>
+	<div class="wrap">
+		<div class="row">
+			<p class="brand">
+				<img src="/icons/pwa-192.png" alt="" width="32" height="32" />
+				<span>Bagful</span>
+			</p>
+			<nav aria-label="Legal and source">
+				<a href="/privacy">Privacy</a>
+				<a href="/terms">Terms</a>
+				<a href={site.repoUrl} rel="noopener">Source on GitHub</a>
+			</nav>
+		</div>
 		<p class="fine">© {year} Bagful. Source-available under the PolyForm Noncommercial License.</p>
 	</div>
 </footer>
 
 <style>
 	footer {
-		background: var(--green-ink);
-		color: var(--cream);
-		padding-block: 3rem;
+		background: var(--ink);
+		color: var(--ground);
+		padding-block: 2.5rem 3rem;
 	}
 	.row {
-		display: grid;
-		gap: 1.5rem;
-		grid-template-columns: 1fr auto;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem 2rem;
 		align-items: center;
+		justify-content: space-between;
 	}
 	.brand {
 		display: flex;
 		align-items: center;
 		gap: 0.6rem;
 		font-weight: 800;
-		font-size: 1.2rem;
-		letter-spacing: -0.03em;
+		font-size: 1.25rem;
+		letter-spacing: -0.04em;
 	}
 	.brand img {
 		border-radius: 9px;
@@ -45,17 +48,12 @@ const year = new Date().getFullYear();
 		display: flex;
 		flex-wrap: wrap;
 		gap: 1.5rem;
-		font-weight: 600;
+		font-weight: 700;
 		font-size: var(--step--1);
 	}
 	.fine {
-		grid-column: 1 / -1;
+		margin-top: 1.5rem;
 		font-size: var(--step--1);
-		color: color-mix(in srgb, var(--cream) 70%, transparent);
-	}
-	@media (max-width: 40rem) {
-		.row {
-			grid-template-columns: 1fr;
-		}
+		color: color-mix(in srgb, var(--ground) 72%, transparent);
 	}
 </style>

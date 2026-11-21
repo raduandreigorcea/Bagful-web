@@ -4,8 +4,11 @@
    scales as a unit from a 220px mobile mockup to a 340px hero. */
 
 .phone {
+	font-family: var(--font);
 	container-type: inline-size;
-	width: var(--pw, 18.75rem);
+	/* Snapped to a multiple of 15px so the 9 : 18.6 frame is a whole number of
+	   pixels both ways, and every row inside lands on the same sub-pixel. */
+	width: round(down, var(--pw, 18.75rem), 15px);
 	aspect-ratio: 9 / 18.6;
 	position: relative;
 }
@@ -47,7 +50,7 @@
 	inset: 0;
 	display: flex;
 	flex-direction: column;
-	font-size: 4.4cqw;
+	font-size: round(4.4cqw, 1px);
 	line-height: 1.25;
 	text-align: left;
 	color: var(--text);
@@ -57,25 +60,7 @@
 .ui-top {
 	background: var(--green);
 	color: #fff;
-	padding: 3.6em 1.15em 1.05em;
-}
-.ui-top-row {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-.ui-top h4 {
-	margin: 0;
-	font-size: 1.55em;
-	font-weight: 800;
-	letter-spacing: -0.03em;
-}
-.ui-top small {
-	display: block;
-	margin-top: 0.15em;
-	font-size: 0.82em;
-	font-weight: 500;
-	opacity: 0.85;
+	padding: 2.7em 0.6em 0.75em 0.6em;
 }
 .ui-status {
 	position: absolute;
@@ -89,30 +74,93 @@
 	color: #fff;
 }
 
-.ui-avatars {
+/* The list bar: the list’s tile, its name, who is on it and how much is in the cart. */
+.ui-bar {
 	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	padding: 0.25em 0.3em;
 }
-.ui-avatars span {
+.ui-tile {
+	flex: none;
 	display: grid;
 	place-items: center;
-	width: 1.9em;
-	height: 1.9em;
-	margin-left: -0.5em;
-	border-radius: 50%;
-	border: 0.15em solid var(--green);
-	font-size: 0.78em;
-	font-weight: 800;
-	color: var(--green-ink);
+	width: 2.3em;
+	height: 2.3em;
+	border-radius: 0.65em;
+	background: var(--paper);
 }
-.ui-avatars span:first-child {
+.ui-tile img {
+	width: 1.5em;
+	height: 1.5em;
+}
+.ui-bar-info {
+	min-width: 0;
+	flex: 1;
+}
+.ui-bar-name {
+	margin: 0;
+	font-size: 0.96em;
+	font-weight: 700;
+	line-height: 1.25;
+	letter-spacing: -0.01em;
+}
+.ui-bar-sub {
+	display: flex;
+	align-items: center;
+	gap: 0.8em;
+	margin-top: 0.3em;
+}
+.ui-faces {
+	display: flex;
+}
+.ui-faces span {
+	display: grid;
+	place-items: center;
+	width: 1.5em;
+	height: 1.5em;
+	margin-left: -0.4em;
+	border-radius: 50%;
+	border: 0.1em solid color-mix(in srgb, #fff 40%, var(--green));
+	background: #fff;
+	color: var(--green);
+	font-size: 0.62em;
+	font-weight: 800;
+}
+.ui-faces span:first-child {
 	margin-left: 0;
+}
+.ui-progress {
+	flex: none;
+	width: 8.4em;
+	display: grid;
+	gap: 0.2em;
+}
+.ui-progress-label {
+	text-align: center;
+	font-size: 0.75em;
+	font-weight: 700;
+	line-height: 1.2;
+	color: rgb(255 255 255 / 0.85);
+}
+.ui-progress-track {
+	height: 0.4em;
+	border-radius: 999px;
+	background: rgb(255 255 255 / 0.26);
+	overflow: hidden;
+}
+.ui-progress-fill {
+	display: block;
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(to right, rgb(255 255 255 / 0.62), rgb(255 255 255 / 0.92));
 }
 
 .ui-list {
 	flex: 1;
 	min-height: 0;
 	margin: 0;
-	padding: 0.8em 0.8em 0;
+	padding: 0.5em 0.85em 0;
 	list-style: none;
 	overflow: hidden;
 }
@@ -124,69 +172,94 @@
 .ui-row-in {
 	min-height: 0;
 	overflow: hidden;
-	padding-bottom: 0.5em;
 }
-.ui-row-card {
+/* A row is flat on the page, no card: icon, name, quantity. */
+.ui-item {
+	position: relative;
 	display: flex;
 	align-items: center;
-	gap: 0.7em;
-	padding: 0.5em 0.7em 0.5em 0.5em;
-	border-radius: 1em;
-	background: #fff;
-	box-shadow: 0 0.05em 0 rgb(18 53 36 / 0.06);
+	gap: 0.75em;
+	min-height: round(3.55em, 2px);
+	padding: 0.5em 0.2em;
 }
-.ui-row-card img {
-	width: 2.6em;
-	height: 2.6em;
+.ui-icon {
+	position: relative;
 	flex: none;
+	/* Whole, even pixels: a fractional box lands on a different sub-pixel in every
+	   row, which is what made the same tick look higher or lower from row to row. */
+	width: round(2.5em, 2px);
+	height: round(2.5em, 2px);
+}
+.ui-icon img {
+	width: 100%;
+	height: 100%;
 	border-radius: 0.75em;
 }
-.ui-row-text {
-	flex: 1;
-	min-width: 0;
-	font-weight: 700;
-	font-size: 1.05em;
-}
-.ui-row-text small {
-	display: block;
-	font-size: 0.78em;
-	font-weight: 500;
-	color: var(--text-soft);
-}
-.ui-check {
+.ui-tick {
+	position: absolute;
+	right: -4px;
+	bottom: -4px;
 	display: grid;
 	place-items: center;
-	flex: none;
-	width: 1.55em;
-	height: 1.55em;
+	width: round(1.15em, 2px);
+	height: round(1.15em, 2px);
 	border-radius: 50%;
-	border: 0.14em solid #c9d6ce;
+	background: var(--green);
 	color: #fff;
-	transition:
-		background 0.3s var(--ease),
-		border-color 0.3s var(--ease);
-}
-.ui-check svg {
-	width: 0.9em;
-	height: 0.9em;
+	box-shadow: 0 0 0 0.12em var(--paper);
 	opacity: 0;
 	transform: scale(0.4);
 	transition:
 		opacity 0.25s,
 		transform 0.35s var(--ease);
 }
-.ui-row.is-done .ui-check {
-	background: var(--green);
-	border-color: var(--green);
+.ui-tick svg {
+	display: block;
+	width: round(0.75em, 2px);
+	height: round(0.75em, 2px);
 }
-.ui-row.is-done .ui-check svg {
+.ui-item-name {
+	flex: 1;
+	min-width: 0;
+	font-size: 1em;
+	font-weight: 500;
+	line-height: 1.3;
+	text-decoration: line-through transparent;
+	transition:
+		color 0.3s var(--ease),
+		text-decoration-color 0.3s var(--ease);
+}
+.ui-qty {
+	flex: none;
+	display: grid;
+	place-items: center;
+	min-width: 1.9em;
+	height: 1.9em;
+	padding: 0 0.4em;
+	border-radius: 999px;
+	border: 0.07em solid color-mix(in srgb, var(--green) 28%, #fff);
+	background: color-mix(in srgb, var(--green) 10%, #fff);
+	color: var(--green);
+	font-size: 0.78em;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+.ui-qty.one {
+	background: transparent;
+	border-color: #e5e0d9;
+	color: #a19a92;
+}
+.ui-row.is-done .ui-tick {
 	opacity: 1;
 	transform: none;
 }
-.ui-row.is-done .ui-row-text {
+.ui-row.is-done .ui-item-name {
+	color: #a19a92;
+	text-decoration-color: currentColor;
+}
+.ui-row.is-done .ui-icon img,
+.ui-row.is-done .ui-qty {
 	opacity: 0.5;
-	text-decoration: line-through;
-	text-decoration-thickness: 0.08em;
 }
 .ui-row.is-new {
 	animation: ui-row-in 0.7s var(--ease) both;
@@ -202,23 +275,59 @@
 	}
 }
 
-.ui-add {
+/* The bottom action bar: a white sheet with the green Add disc riding its top edge. */
+.ui-nav {
+	position: relative;
+	z-index: 3;
 	display: flex;
-	align-items: center;
-	gap: 0.6em;
-	padding: 0.6em 0.8em 1.7em;
-	background: linear-gradient(to top, var(--paper) 70%, transparent);
-}
-.ui-add-field {
-	flex: 1;
-	padding: 0.75em 1em;
-	border-radius: 999px;
+	align-items: stretch;
+	height: 3.9em;
+	padding-bottom: 1em;
 	background: #fff;
-	font-size: 0.95em;
-	color: #8aa093;
-	box-shadow: inset 0 0 0 0.08em #e4ded5;
+	border-radius: 1.25em 1.25em 0 0;
+	box-shadow: 0 -0.25em 1em rgb(15 23 42 / 0.06);
 }
-.ui-add-disc {
+.ui-nav::after {
+	content: ;
+	position: absolute;
+	left: 50%;
+	bottom: 0.35em;
+	width: 35%;
+	height: 0.28em;
+	translate: -50% 0;
+	border-radius: 999px;
+	background: #1c1917;
+}
+.ui-nav-slot {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.2em;
+	padding: 0.4em 0.2em 0.3em;
+	color: #6b645d;
+}
+.ui-nav-mark {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 1.4em;
+	height: 1.4em;
+}
+.ui-nav-mark svg,
+.ui-nav-mark img {
+	width: 1.15em;
+	height: 1.15em;
+}
+.ui-nav-label {
+	font-size: 0.64em;
+	font-weight: 600;
+	line-height: 1.2;
+}
+.ui-nav-disc {
+	flex: none;
 	display: grid;
 	place-items: center;
 	width: 2.7em;
@@ -226,30 +335,46 @@
 	border-radius: 50%;
 	background: var(--green);
 	color: #fff;
+	box-shadow: 0 0.25em 0.75em rgb(77 140 101 / 0.28);
 }
-.ui-add-disc svg {
+.ui-nav-disc svg {
 	width: 1.2em;
 	height: 1.2em;
 }
+.ui-nav-avatar {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 1.4em;
+	height: 1.4em;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: #e3efe7;
+	color: var(--green-deep);
+	font-size: 0.8em;
+	font-weight: 800;
+}
 
-/* Toast that drops in from the top of the glass. */
+/* The app’s toast: the one dark surface, sitting just above the bar. */
 .ui-toast {
 	position: absolute;
 	z-index: 4;
-	top: 3.4em;
-	left: 0.8em;
-	right: 0.8em;
+	bottom: 5.4em;
+	left: 0.9em;
+	right: 0.9em;
 	display: flex;
 	align-items: center;
 	gap: 0.7em;
-	padding: 0.7em 0.9em;
-	border-radius: 1.1em;
-	background: var(--green-ink);
-	color: #fff;
-	font-weight: 700;
-	font-size: 0.95em;
+	min-height: 3em;
+	padding: 0.4em 0.9em;
+	border-radius: 1em;
+	background: #292524;
+	color: #fafaf9;
+	font-weight: 600;
+	font-size: 0.92em;
+	box-shadow: 0 0.5em 1.4em rgb(15 23 42 / 0.25);
 	opacity: 0;
-	transform: translateY(-1.5em) scale(0.96);
+	transform: translateY(0.9em) scale(0.97);
 	transition:
 		opacity 0.4s var(--ease),
 		transform 0.5s var(--ease);
@@ -260,7 +385,14 @@
 	transform: none;
 }
 .ui-toast img {
-	width: 1.9em;
-	height: 1.9em;
-	border-radius: 0.5em;
+	width: 1.7em;
+	height: 1.7em;
+	border-radius: 0.45em;
+}
+
+/* The hero phone is cropped at the bottom of the page, so its toast rides under
+   the bar instead of above the nav, where nobody would see it. */
+.ui-screen[data-hero-screen] .ui-toast {
+	bottom: auto;
+	top: 7.3em;
 }

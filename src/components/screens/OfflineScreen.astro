@@ -1,31 +1,21 @@
 ---
+import AppBar from './AppBar.astro';
+import NavBar from './NavBar.astro';
 import Row from './Row.astro';
 ---
 
 <div class="ui-screen">
-	<div class="ui-top">
-		<span class="ui-status"><span>17:56</span><span>No signal</span></span>
-		<div class="ui-top-row">
-			<div>
-				<h4>Home</h4>
-				<small>Supermarket basement</small>
-			</div>
-			<span class="ui-offline">Offline</span>
-		</div>
-	</div>
+	<AppBar time="17:56" signal="No signal" label="2 items" percent={50}>
+		<span class="ui-offline">Offline</span>
+	</AppBar>
 	<p class="ui-banner">You're offline. Everything you do now syncs when the signal is back.</p>
 	<ul class="ui-list">
-		<Row icon="olive-oil" name="Olive oil" qty="added just now" />
-		<Row icon="pasta" name="Pasta" qty="2 packs" done />
-		<Row icon="tomato" name="Tomatoes" qty="1 kg" done />
-		<Row icon="cheese" name="Cheese" qty="200 g" />
+		<Row icon="olive-oil" name="Olive oil" />
+		<Row icon="pasta" name="Pasta" count={2} done />
+		<Row icon="tomato" name="Tomatoes" done />
+		<Row icon="cheese" name="Cheese" />
 	</ul>
-	<div class="ui-add">
-		<span class="ui-add-field">Add an item</span>
-		<span class="ui-add-disc">
-			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
-		</span>
-	</div>
+	<NavBar />
 </div>
 
 <style is:global>

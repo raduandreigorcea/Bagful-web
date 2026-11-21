@@ -1,19 +1,24 @@
 ---
 import Row from './screens/Row.astro';
+import AppBar from './screens/AppBar.astro';
 
 const chat = [
-	{ who: 'Mara', text: 'milk?', side: 'in' },
-	{ who: 'Andrei', text: 'got milk', side: 'out' },
-	{ who: 'Mara', text: 'omg I got milk too', side: 'in' },
-	{ who: 'Radu', text: 'wait who has the list', side: 'in' },
-	{ who: 'Andrei', text: 'scroll up', side: 'out' },
-	{ who: 'Mara', text: 'that’s now 3 jars of pickles', side: 'in' },
+	{ who: 'Sam', text: 'milk?', side: 'in' },
+	{ who: 'Alex', text: 'got milk', side: 'out' },
+	{ who: 'Sam', text: 'omg I got milk too', side: 'in' },
+	{ who: 'Jo', text: 'wait who has the list', side: 'in' },
+	{ who: 'Alex', text: 'scroll up', side: 'out' },
+	{ who: 'Sam', text: 'that’s now 3 jars of pickles', side: 'in' },
 ];
 ---
 
-<section class="why" id="why" aria-labelledby="why-title">
-	<div class="wrap">
-		<h2 id="why-title">Group chats are terrible shopping lists.</h2>
+<section class="why stop" id="why" aria-labelledby="why-title" style="--route: var(--route-flat)">
+	<div class="stop-body">
+		<span class="rail-fill" data-rail></span>
+		<div class="head">
+			<span class="stop-ring" aria-hidden="true"></span>
+			<h2 id="why-title">Group chats are terrible shopping lists.</h2>
+		</div>
 		<p class="lede">
 			Messages scroll away, nobody knows what has already been bought, and the one time you don’t check, you come
 			home with the third jar of pickles this week.
@@ -21,8 +26,8 @@ const chat = [
 
 		<div class="compare">
 			<figure class="chat">
-				<div class="chat-box" aria-hidden="true">
-					<p class="chat-title">Flat 4B 🛒</p>
+				<div class="chat-box" role="group" aria-label="Group chat about milk">
+					<p class="chat-title">Group chat</p>
 					{
 						chat.map((m) => (
 							<p class:list={['bubble', m.side]}>
@@ -37,11 +42,12 @@ const chat = [
 
 			<figure class="list">
 				<div class="mini" aria-hidden="true">
+					<AppBar label="3 items" percent={25} />
 					<ul>
-						<Row icon="milk" name="Milk" qty="bought by Andrei" done />
-						<Row icon="egg" name="Eggs" qty="12" />
+						<Row icon="milk" name="Milk" done />
+						<Row icon="egg" name="Eggs" count={12} />
 						<Row icon="bread" name="Bread" />
-						<Row icon="pasta" name="Pasta" qty="2 packs" />
+						<Row icon="pasta" name="Pasta" />
 					</ul>
 				</div>
 				<figcaption>Bagful: one list, with everything already bought crossed off.</figcaption>
@@ -51,8 +57,15 @@ const chat = [
 </section>
 
 <style>
-	.why {
+	.stop-body {
 		padding-block: clamp(4rem, 9vw, 8rem);
+	}
+	.head {
+		position: relative;
+	}
+	.stop-ring {
+		left: -2.15rem;
+		top: 0.5em;
 	}
 	h2 {
 		font-size: var(--step-3);
@@ -62,35 +75,39 @@ const chat = [
 		margin-top: 1.5rem;
 		max-width: 38rem;
 		font-size: var(--step-1);
-		line-height: 1.45;
-		color: var(--text-soft);
+		line-height: 1.4;
+		font-weight: 500;
+		color: var(--ink-soft);
 	}
 	.compare {
 		margin-top: clamp(2.5rem, 6vw, 4.5rem);
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: clamp(1.5rem, 4vw, 3.5rem);
-		align-items: start;
+		align-items: stretch;
 	}
 	figure {
 		margin: 0;
 		display: grid;
+		grid-template-rows: 1fr auto;
 		gap: 1.1rem;
 	}
 	figcaption {
-		font-weight: 600;
-		color: var(--text-soft);
+		font-weight: 700;
+		color: var(--ink-soft);
 		font-size: var(--step--1);
 	}
 
+	/* The chat is off the grid on purpose: bubbles at odd angles, no line through them. */
 	.chat-box {
 		display: grid;
 		gap: 0.55rem;
 		padding: 1.4rem;
-		border-radius: 1.8rem;
-		background: #e8e4dd;
+		border-radius: 0.9rem;
+		background: var(--ground-deep);
 		min-height: 24rem;
 		align-content: start;
+		font-family: var(--font);
 	}
 	.chat-title {
 		font-weight: 800;
@@ -114,28 +131,34 @@ const chat = [
 		background: var(--leaf);
 	}
 	.bubble:nth-child(odd) {
-		rotate: -0.6deg;
+		rotate: -1.2deg;
 	}
 	.bubble:nth-child(even) {
-		rotate: 0.5deg;
+		rotate: 1deg;
 	}
 
+	/* The list card is a slice of the real app: its green bar over the paper list. */
 	.mini {
 		min-height: 24rem;
-		padding: 1.4rem;
-		border-radius: 1.8rem;
-		background: var(--green);
-		display: grid;
-		align-content: start;
-		font-size: 1.08rem;
+		border-radius: 0.9rem;
+		overflow: hidden;
+		background: var(--paper);
+		box-shadow: 0 0 0 2px var(--ink);
+		font-size: 13px;
+		font-family: var(--font);
+		line-height: 1.25;
+		color: var(--text);
+	}
+	.mini :global(.ui-top) {
+		padding-top: 0.75em;
+	}
+	.mini :global(.ui-status) {
+		display: none;
 	}
 	.mini ul {
 		list-style: none;
-		padding: 0;
 		margin: 0;
-	}
-	.mini :global(.ui-row-card) {
-		padding: 0.6em 0.9em 0.6em 0.6em;
+		padding: 0.4em 0.6em;
 	}
 
 	@media (max-width: 48rem) {

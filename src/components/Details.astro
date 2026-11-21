@@ -1,55 +1,46 @@
 ---
-// The small things the README lists, each with a real product icon from the app.
-const icons = [
-	'milk', 'apple', 'banana', 'bread', 'cheese', 'egg', 'tomato', 'avocado', 'broccoli', 'carrot',
-	'coffee', 'croissant', 'cherry', 'chocolate', 'donut', 'fish', 'grapes', 'honey', 'ice-cream', 'lemon',
-	'lettuce', 'mushroom', 'olive-oil', 'orange', 'pasta', 'pizza', 'rice', 'salad', 'strawberry', 'tea',
-	'watermelon', 'wine', 'yogurt', 'soap', 'toilet-paper', 'shampoo', 'toothbrush', 'sponge', 'water', 'juice',
-	'butter', 'chicken', 'cookie', 'corn', 'cucumber', 'garlic', 'onion', 'potato', 'pepper', 'pumpkin',
-	'soda', 'sausage', 'cereal', 'jam', 'nuts', 'popcorn', 'pretzel', 'kiwi', 'pear', 'peach', 'pineapple',
-];
-
+// The map key: the small things the README lists, each with a real product icon
+// from the app and the route colour it rides on.
 const facts = [
-	{ icon: 'garlic', title: 'Join with a short code', text: 'Share an invite code and you are in. The list owner decides who can manage the list and its members.' },
-	{ icon: 'egg', title: 'Duplicates merge', text: 'Add eggs twice and you get one item with a higher quantity, not two lines to compare.' },
-	{ icon: 'avocado', title: 'Every item gets its own icon', text: 'Products get a fitting picture automatically, so a list reads at a glance in the aisle.' },
-	{ icon: 'tea', title: 'Light, dark or follow your phone', text: 'Pick a theme, or let Bagful follow the system.' },
-	{ icon: 'bread', title: 'Install it, or just open it', text: 'Works in any browser, installs to your home screen like a real app, and ships as a native Android app too.' },
+	{ icon: 'apple', title: 'Join with a short code', text: 'Share an invite code and you are in. The list owner decides who can manage the list and its members.', route: 'var(--route-home)' },
+	{ icon: 'banana', title: 'Duplicates merge', text: 'Add eggs twice and you get one item with a higher quantity, not two lines to compare.', route: 'var(--route-flat)' },
+	{ icon: 'avocado', title: 'Every item gets its own icon', text: 'Products get a fitting picture automatically, so a list reads at a glance in the aisle.', route: 'var(--route-parents)' },
+	{ icon: 'cherry', title: 'Install it, or just open it', text: 'Works in any browser, installs to your home screen like a real app, and ships as a native Android app too.', route: 'var(--route-trip)' },
 ];
 ---
 
-<section class="details" aria-labelledby="details-title">
-	<div class="wrap">
-		<h2 id="details-title">Small things that add up.</h2>
+<section class="details stop" aria-labelledby="details-title" style="--route: var(--route-parents)">
+	<div class="stop-body">
+		<span class="rail-fill" data-rail></span>
+		<div class="head">
+			<span class="stop-ring" aria-hidden="true"></span>
+			<h2 id="details-title">Small things that add up.</h2>
+		</div>
 		<ul class="facts">
 			{
 				facts.map((f) => (
-					<li>
+					<li style={`--c:${f.route}`}>
+						<span class="stub" aria-hidden="true"></span>
 						<img src={`/products/${f.icon}.svg`} alt="" width="64" height="64" loading="lazy" />
-						<div>
-							<h3>{f.title}</h3>
-							<p>{f.text}</p>
-						</div>
+						<h3>{f.title}</h3>
+						<p>{f.text}</p>
 					</li>
 				))
 			}
 		</ul>
 	</div>
-
-	<div class="wall" aria-hidden="true">
-		{
-			icons.map((n, i) => (
-				<img src={`/products/${n}.svg`} alt="" width="72" height="72" loading="lazy" style={`--r:${((i * 37) % 9) - 4}deg`} />
-			))
-		}
-	</div>
 </section>
 
 <style>
-	.details {
-		padding-block: clamp(3rem, 7vw, 6rem) 0;
-		background: var(--cream);
-		overflow: hidden;
+	.stop-body {
+		padding-block: clamp(4rem, 8vw, 7rem);
+	}
+	.head {
+		position: relative;
+	}
+	.stop-ring {
+		left: -2.15rem;
+		top: 0.5em;
 	}
 	h2 {
 		font-size: var(--step-3);
@@ -59,43 +50,44 @@ const facts = [
 		list-style: none;
 		margin: clamp(2rem, 5vw, 3.5rem) 0 0;
 		padding: 0;
-		max-width: 52rem;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 4rem);
 	}
 	.facts li {
 		display: grid;
 		grid-template-columns: 4rem 1fr;
-		gap: 1.4rem;
-		align-items: center;
-		padding-block: 1.4rem;
-		border-top: 1px solid var(--cream-edge);
+		column-gap: 1.2rem;
+		row-gap: 0.4rem;
+		align-content: start;
+	}
+	/* Each fact hangs from a short stub of its own route colour. */
+	.stub {
+		grid-column: 1 / -1;
+		height: 0.55rem;
+		border-radius: 999px;
+		background: var(--c);
+		margin-bottom: 1rem;
 	}
 	.facts img {
+		grid-row: 2 / span 2;
 		width: 4rem;
 		height: 4rem;
 		border-radius: 1.1rem;
 	}
 	h3 {
 		font-size: var(--step-1);
-		letter-spacing: -0.025em;
+		letter-spacing: -0.03em;
+		align-self: end;
 	}
 	.facts p {
-		margin-top: 0.3rem;
-		color: var(--text-soft);
-		max-width: 36rem;
+		color: var(--ink-soft);
+		font-weight: 500;
+		max-width: 28rem;
 	}
-
-	.wall {
-		margin-top: clamp(3rem, 7vw, 5rem);
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.75rem;
-		padding: 0 var(--gutter) clamp(3rem, 7vw, 5rem);
-	}
-	.wall img {
-		width: clamp(3.4rem, 7vw, 4.5rem);
-		height: auto;
-		border-radius: 24%;
-		rotate: var(--r);
+	@media (max-width: 48rem) {
+		.facts {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

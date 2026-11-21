@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Claude Code skills
+.claude/
+
+# Impeccable scratch output
+.impeccable/shots/
+.impeccable/questions/

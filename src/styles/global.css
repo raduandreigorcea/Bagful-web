@@ -23,13 +23,38 @@
 		U+A720-A7FF;
 }
 
+@font-face {
+	font-family: 'Archivo';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('/fonts/archivo-latin.woff2') format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: 'Archivo';
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url('/fonts/archivo-latin-ext.woff2') format('woff2');
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root {
-	/* Colours are the app's own (src/style.css and resources/icon.svg there). */
+	/* The map: a pale paper ground, ink, and four enamel route colours. */
+	--ground: #e8ede7;
+	--ground-deep: #dbe3da;
+	--ink: #0e2a1d;
+	--ink-soft: #3d5546;
+	--route-home: #4d8c65;
+	--route-flat: #ee7550;
+	--route-parents: #edbe6e;
+	--route-trip: #3f7fbf;
+	--route-flat-ink: #b5421f;
+
+	/* The app’s own colours, used inside the phones and as the brand green. */
 	--green: #4d8c65;
 	--green-deep: #2f6b47;
-	/* The brand green under cream text is 3.7:1, short of the 4.5:1 body text
-	   needs. Full-bleed sections that carry paragraphs use this step down (4.7:1);
-	   the phones and logo keep the exact brand green. */
 	--green-field: #3f7a57;
 	--green-ink: #123524;
 	--leaf: #9ccf84;
@@ -43,18 +68,20 @@
 	--text-soft: #476052;
 	--on-green: #fbf7f0;
 
+	--display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
 	--font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
 	/* Fluid type scale, one step per role. */
-	--step--1: clamp(0.86rem, 0.83rem + 0.1vw, 0.93rem);
+	--step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.9rem);
 	--step-0: clamp(1.02rem, 0.98rem + 0.2vw, 1.14rem);
 	--step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.55rem);
-	--step-2: clamp(1.7rem, 1.4rem + 1.4vw, 2.5rem);
-	--step-3: clamp(2.3rem, 1.6rem + 3.2vw, 4.2rem);
-	--step-4: clamp(2.7rem, 1.4rem + 6vw, 6.6rem);
+	--step-2: clamp(1.8rem, 1.4rem + 1.6vw, 2.7rem);
+	--step-3: clamp(2.4rem, 1.5rem + 3.6vw, 4.6rem);
+	--step-4: clamp(2.8rem, 1.2rem + 6vw, 6rem);
 
 	--gutter: clamp(1.25rem, 4vw, 3rem);
-	--max: 78rem;
+	--max: 80rem;
+	--rail: 0.55rem;
 	--ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -67,15 +94,20 @@
 html {
 	-webkit-text-size-adjust: 100%;
 	scroll-behavior: smooth;
+	accent-color: var(--route-home);
 }
 
+/* The page is a map sheet: one dot grid under everything, 40px apart. */
 body {
 	margin: 0;
-	font-family: var(--font);
+	font-family: var(--display);
 	font-size: var(--step-0);
+	font-weight: 450;
 	line-height: 1.55;
-	color: var(--text);
-	background: var(--paper);
+	color: var(--ink);
+	background-color: var(--ground);
+	background-image: radial-gradient(circle at 1px 1px, rgb(14 42 29 / 0.13) 1px, transparent 1.5px);
+	background-size: 40px 40px;
 	-webkit-font-smoothing: antialiased;
 	text-rendering: optimizeLegibility;
 }
@@ -105,13 +137,21 @@ h3 {
 p {
 	text-wrap: pretty;
 }
+li {
+	text-wrap: pretty;
+}
 
 a {
 	color: inherit;
 }
 
+::selection {
+	background: var(--route-parents);
+	color: var(--ink);
+}
+
 :focus-visible {
-	outline: 3px solid var(--tomato);
+	outline: 3px solid var(--route-flat);
 	outline-offset: 3px;
 	border-radius: 6px;
 }
@@ -126,8 +166,8 @@ a {
 	inset: 0.75rem auto auto 0.75rem;
 	z-index: 100;
 	padding: 0.6rem 1rem;
-	background: var(--cream);
-	border-radius: 999px;
+	background: var(--ground);
+	border-radius: 0.5rem;
 	font-weight: 700;
 	transform: translateY(-200%);
 }
@@ -135,15 +175,113 @@ a {
 	transform: none;
 }
 
+/* Station sign text: small caps in the diagram’s voice. */
+.sign {
+	font-size: 0.74rem;
+	font-weight: 800;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+}
+
+/* Enamel plaques: the page’s buttons. A ring on the left is the station. */
+.plaque {
+	--route: var(--route-home);
+	display: inline-flex;
+	align-items: center;
+	gap: 0.7rem;
+	min-height: 3.25rem;
+	padding: 0.8rem 1.35rem 0.8rem 1.05rem;
+	border: 2px solid var(--ink);
+	border-radius: 0.65rem;
+	background: var(--ink);
+	color: var(--ground);
+	font-weight: 800;
+	font-size: 1rem;
+	letter-spacing: -0.01em;
+	text-decoration: none;
+	transition:
+		transform 0.25s var(--ease),
+		background 0.25s var(--ease),
+		color 0.25s var(--ease);
+}
+.plaque::before {
+	content: '';
+	flex: none;
+	width: 0.85rem;
+	height: 0.85rem;
+	border-radius: 50%;
+	border: 0.22rem solid currentColor;
+	background: transparent;
+	transition: background 0.25s var(--ease);
+}
+.plaque:hover {
+	transform: translateY(-2px);
+}
+.plaque:hover::before {
+	background: var(--route);
+}
+.plaque:active {
+	transform: none;
+}
+.plaque.line {
+	background: transparent;
+	color: var(--ink);
+	--route: var(--route-parents);
+}
+.plaque.on-dark {
+	background: var(--ground);
+	color: var(--ink);
+	border-color: var(--ground);
+}
+.plaque.line.on-dark {
+	background: transparent;
+	color: var(--ground);
+}
+
+/* The rail: one coloured line down the left of a section, a ring where its heading sits.
+   The pale line is the whole route; the solid one is laid as the page scrolls. */
+.stop {
+	--route: var(--route-home);
+	position: relative;
+}
+.stop-body {
+	position: relative;
+	width: min(100% - 2 * var(--gutter), var(--max));
+	margin-inline: auto;
+	padding-left: 2.6rem;
+}
+.stop-body::before,
+.rail-fill {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0.45rem;
+	width: var(--rail);
+	margin-left: calc(var(--rail) / -2);
+	background: var(--route);
+}
+.stop-body::before {
+	opacity: 0.22;
+}
+.rail-fill {
+	transform-origin: top;
+}
+.stop-ring {
+	position: absolute;
+	left: 0.45rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	margin-left: -0.75rem;
+	border: 0.32rem solid var(--ink);
+	border-radius: 50%;
+	background: var(--ground);
+	z-index: 1;
+	transition: background 0.3s var(--ease);
+}
+
 @media (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;
-	}
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.001ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.001ms !important;
 	}
 }

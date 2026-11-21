@@ -1,0 +1,36 @@
+---
+interface Props {
+	/** The clock in the status bar. */
+	time?: string;
+	/** Right side of the status bar. */
+	signal?: string;
+	name?: string;
+	/** Text above the progress track, e.g. "3 items". */
+	label: string;
+	/** How much of the list is in the cart, 0 to 100. */
+	percent: number;
+	/** Letters of the people on the list, drawn as the app's fallback faces. */
+	faces?: string[];
+}
+const { time = '9:41', signal = '5G', name = 'Home', label, percent, faces = ['S', 'A', 'J'] } = Astro.props;
+---
+
+<div class="ui-top">
+	<span class="ui-status"><span>{time}</span><span>{signal}</span></span>
+	<div class="ui-bar">
+		<span class="ui-tile"><img src="/list-icons/bag.svg" alt="" width="40" height="40" /></span>
+		<div class="ui-bar-info">
+			<p class="ui-bar-name">{name}</p>
+			<div class="ui-bar-sub">
+				<span class="ui-faces">
+					{faces.map((f) => <span>{f}</span>)}
+				</span>
+				<span class="ui-progress">
+					<span class="ui-progress-label">{label}</span>
+					<span class="ui-progress-track"><span class="ui-progress-fill" style={`width:${percent}%`}></span></span>
+				</span>
+			</div>
+		</div>
+		<slot />
+	</div>
+</div>

@@ -4,19 +4,20 @@
 <div class="ui-screen ui-lock">
 	<span class="ui-status"><span></span><span>5G</span></span>
 	<p class="ui-lock-time">9:41</p>
+	<p class="ui-lock-date">Saturday, 21 November</p>
 	<div class="ui-notes">
 		<div class="ui-note">
 			<img src="/icons/pwa-192.png" alt="" width="40" height="40" />
 			<div>
 				<b>Bagful <span>now</span></b>
-				<p>Radu added Milk</p>
+				<p>Sam added Milk</p>
 			</div>
 		</div>
 		<div class="ui-note">
 			<img src="/icons/pwa-192.png" alt="" width="40" height="40" />
 			<div>
 				<b>Bagful <span>2 min ago</span></b>
-				<p>Radu bought Milk, Eggs and 2 more</p>
+				<p>Mom bought Milk, Eggs and 2 more</p>
 			</div>
 		</div>
 	</div>
@@ -28,15 +29,21 @@
 		color: var(--green-ink);
 	}
 	.ui-lock-time {
-		margin: 4.6em 0 0;
+		margin: 1.1em 0 0;
 		text-align: center;
 		font-size: 4.4em;
 		font-weight: 800;
 		letter-spacing: -0.05em;
 		line-height: 1;
 	}
+	.ui-lock-date {
+		margin: 0.5em 0 0;
+		text-align: center;
+		font-size: 0.9em;
+		font-weight: 600;
+	}
 	.ui-notes {
-		margin: 3.2em 0.8em 0;
+		margin: 1.6em 0.8em 0;
 		display: grid;
 		gap: 0.6em;
 	}
@@ -54,6 +61,10 @@
 		height: 2.5em;
 		border-radius: 0.6em;
 		flex: none;
+	}
+	.ui-note > div {
+		flex: 1;
+		min-width: 0;
 	}
 	.ui-note b {
 		display: flex;

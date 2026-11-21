@@ -6,5 +6,7 @@ export const site = {
 	// The web app. The famcart-app.vercel.app domain is permanent on purpose:
 	// installed apps and every web user's session belong to it.
 	appUrl: 'https://famcart-app.vercel.app',
+	// The Android build ships from the repo’s releases; point this at the store listing once there is one.
+	downloadUrl: 'https://github.com/raduandreigorcea/Bagful/releases/latest',
 	repoUrl: 'https://github.com/raduandreigorcea/Bagful',
 };

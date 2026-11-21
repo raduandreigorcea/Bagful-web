@@ -1,4 +1,6 @@
 ---
+import AppBar from './AppBar.astro';
+import NavBar from './NavBar.astro';
 import Row from './Row.astro';
 
 interface Props {
@@ -9,39 +11,21 @@ const { hero = false } = Astro.props;
 ---
 
 <div class="ui-screen" data-hero-screen={hero ? '' : undefined}>
-	<div class="ui-top">
-		<span class="ui-status"><span>9:41</span><span>5G</span></span>
-		<div class="ui-top-row">
-			<div>
-				<h4>Home</h4>
-				<small>3 people shopping</small>
-			</div>
-			<div class="ui-avatars">
-				<span style="background:#edbe6e">R</span>
-				<span style="background:#9ccf84">A</span>
-				<span style="background:#f59c7e">M</span>
-			</div>
-		</div>
-	</div>
+	<AppBar label="5 items" percent={17} />
 	<ul class="ui-list" data-list={hero ? '' : undefined}>
-		<Row icon="cheese" name="Cheese" qty="200 g" late={hero} />
-		<Row icon="banana" name="Bananas" qty="6" late={hero} />
-		<Row icon="milk" name="Milk" qty="2" late={hero} />
-		<Row icon="egg" name="Eggs" qty="12" />
+		<Row icon="cheese" name="Cheese" late={hero} />
+		<Row icon="banana" name="Bananas" count={6} late={hero} />
+		<Row icon="milk" name="Milk" count={2} late={hero} />
+		<Row icon="egg" name="Eggs" count={12} />
 		<Row icon="bread" name="Bread" />
-		<Row icon="tomato" name="Tomatoes" qty="1 kg" />
+		<Row icon="tomato" name="Tomatoes" done />
 	</ul>
-	<div class="ui-add">
-		<span class="ui-add-field">Add an item</span>
-		<span class="ui-add-disc">
-			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
-		</span>
-	</div>
+	<NavBar />
 	{
 		hero && (
 			<div class="ui-toast" data-toast>
 				<img src="/products/milk.svg" alt="" width="32" height="32" />
-				<span data-toast-text>Radu added Milk</span>
+				<span data-toast-text>Sam added Milk</span>
 			</div>
 		)
 	}

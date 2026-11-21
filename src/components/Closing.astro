@@ -1,39 +1,79 @@
 ---
+import { site } from '../../config';
 ---
 
-<section class="closing" aria-labelledby="closing-title">
-	<div class="wrap">
-		<img src="/icons/pwa-512.png" alt="" width="112" height="112" loading="lazy" />
-		<h2 id="closing-title">Your next shop starts with the same list.</h2>
-		<p>Bagful works in any browser and as an Android app, on the phones you already have.</p>
+<section class="closing stop" aria-labelledby="closing-title" style="--route: var(--ground)">
+	<div class="stop-body">
+		<span class="rail-fill" data-rail></span>
+		<div class="inner">
+			<span class="stop-ring" aria-hidden="true"></span>
+			<h2 id="closing-title">Your next shop starts with the same list.</h2>
+			<p>Bagful works in any browser and as an Android app, on the phones you already have.</p>
+			<div class="actions">
+				<a class="plaque on-dark" href={site.appUrl} rel="noopener">Open the web app</a>
+				<a class="plaque line on-dark" href={site.downloadUrl} rel="noopener">Download the app</a>
+			</div>
+		</div>
+		<img class="mark" src="/icons/pwa-512.png" alt="" width="144" height="144" loading="lazy" />
 	</div>
 </section>
 
 <style>
 	.closing {
-		background: var(--green-field);
-		color: var(--on-green);
-		text-align: center;
+		background: var(--ink);
+		color: var(--ground);
+	}
+	.stop-body {
+		display: grid;
+		gap: 3rem;
 		padding-block: clamp(4.5rem, 10vw, 9rem);
 	}
-	.wrap {
+	/* The route ends level with the middle of the buttons: the bar’s bottom padding
+	   plus half a plaque (about 1.7rem). */
+	.stop-body::before,
+	.stop-body :global(.rail-fill) {
+		bottom: calc(clamp(4.5rem, 10vw, 9rem) + 1.7rem);
+	}
+	.inner {
+		position: relative;
 		display: grid;
-		justify-items: center;
+		justify-items: start;
 		gap: 1.5rem;
 	}
-	img {
-		border-radius: 26px;
-		box-shadow: 0 1.2rem 2.4rem -0.8rem rgb(8 40 22 / 0.5);
-		rotate: -4deg;
+	.stop-ring {
+		left: -2.15rem;
+		top: 0.5em;
+		border-color: var(--ground);
+		background: var(--ink);
 	}
 	h2 {
-		font-size: var(--step-3);
-		max-width: 16ch;
+		font-size: var(--step-4);
+		max-width: 12ch;
+		line-height: 1;
 	}
 	p {
 		font-size: var(--step-1);
 		font-weight: 500;
 		max-width: 30rem;
-		color: var(--on-green);
+		color: color-mix(in srgb, var(--ground) 82%, transparent);
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 0.5rem;
+	}
+	/* The line ends here: the app’s own mark, set where the route terminates. */
+	.mark {
+		width: clamp(5rem, 12vw, 9rem);
+		height: auto;
+		border-radius: 24%;
+		border: 0.4rem solid var(--ground);
+	}
+	@media (min-width: 60rem) {
+		.stop-body {
+			grid-template-columns: minmax(0, 1fr) auto;
+			align-items: center;
+		}
 	}
 </style>

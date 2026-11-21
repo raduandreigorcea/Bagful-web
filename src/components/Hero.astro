@@ -1,47 +1,66 @@
 ---
 import Phone from './Phone.astro';
 import ListScreen from './screens/ListScreen.astro';
+import { site } from '../../config';
 
-// Tiles that drift around the phone. The first three (data-fly) are the ones
-// the intro sends into the list; the rest stay as ambient scenery.
-const tiles = [
-	{ icon: 'milk', fly: 'Milk', x: 17, y: 20, r: -8, s: 1 },
-	{ icon: 'banana', fly: 'Bananas', x: 80, y: 16, r: 7, s: 1 },
-	{ icon: 'cheese', fly: 'Cheese', x: 84, y: 58, r: -5, s: 1 },
-	{ icon: 'avocado', x: 9, y: 54, r: 9, s: 0.85 },
-	{ icon: 'coffee', x: 27, y: 74, r: -10, s: 0.75 },
-	{ icon: 'strawberry', x: 69, y: 78, r: 8, s: 0.75 },
-	{ icon: 'lemon', x: 3, y: 12, r: 6, s: 0.7 },
-	{ icon: 'croissant', x: 94, y: 36, r: -9, s: 0.7 },
+// The diagram, in a 1000 x 920 grid. Lines run at 0, 45 and 90 degrees only and
+// run in under the phone's edge: the phone is the terminus every route is heading for. They
+// tuck beneath it on purpose, because its width is snapped to whole pixels and so is a little
+// narrower than the box it is laid out in.
+const routes = [
+	{ id: 'home', colour: 'var(--route-home)', d: 'M95 560 H170 L270 460 H340', who: 'Sam', at: [95, 560], item: 'Milk', icon: 'milk' },
+	{ id: 'flat', colour: 'var(--route-flat)', d: 'M95 800 H170 L270 700 H340', who: 'Jo', at: [95, 800], item: 'Bananas', icon: 'banana' },
+	{ id: 'parents', colour: 'var(--route-parents)', d: 'M965 380 H930 L870 440 H760', who: 'Mom', at: [965, 380], item: 'Cheese', icon: 'cheese' },
+	{ id: 'trip', colour: 'var(--route-trip)', d: 'M960 640 H920 L860 700 H760', who: 'Alex', at: [960, 640], item: null, icon: null },
 ];
 ---
 
 <section class="hero" data-hero aria-labelledby="hero-title">
-	<div class="wrap copy">
-		<h1 id="hero-title">Everyone you shop with, on one list.</h1>
-		<p>
-			Bagful is a shared shopping list that updates on every phone in the same second. Add milk at home and it's on
-			your flatmate's screen before they reach the shop.
-		</p>
-	</div>
+	<div class="wrap grid">
+		<div class="copy">
+			<h1 id="hero-title">Everyone you shop with, on one list.</h1>
+			<p>
+				Bagful is a shared shopping list that updates on every phone in the same second. Add milk at home and it's on
+				your flatmate's screen before they reach the shop.
+			</p>
+			<div class="actions">
+				<a class="plaque" href={site.appUrl} rel="noopener">Open the web app</a>
+				<a class="plaque line" href={site.downloadUrl} rel="noopener">Download the app</a>
+			</div>
+		</div>
 
-	<div class="stage">
-		{
-			tiles.map((t, i) => (
-				<div
-					class:list={['tile', { ambient: !t.fly }]}
-					style={`left:${t.x}%;top:${t.y}%;--r:${t.r}deg;--s:${t.s};--d:${i * -0.9}s`}
-					data-tile={t.fly}
-					aria-hidden="true"
-				>
-					<img src={`/products/${t.icon}.svg`} alt="" width="96" height="96" />
-				</div>
-			))
-		}
-		<div class="phone-wrap">
-			<Phone width="clamp(15rem, 28vw, 21rem)">
-				<ListScreen hero />
-			</Phone>
+		<div class="stage">
+			<svg class="map" viewBox="0 0 1000 920" aria-hidden="true">
+				<defs>
+					<clipPath id="icon-clip"><rect x="-24" y="-24" width="48" height="48" rx="13"></rect></clipPath>
+				</defs>
+				<g class="routes" fill="none" stroke-width="22" stroke-linejoin="round">
+					{routes.map((r) => <path class="route" id={`route-${r.id}`} d={r.d} stroke={r.colour}></path>)}
+				</g>
+				{
+					routes.map((r) => (
+						<g class="station" data-route={r.id} transform={`translate(${r.at[0]} ${r.at[1]})`}>
+							<circle class="halo" r="26" fill={r.colour}></circle>
+							<circle class="ring" r="24" fill="var(--ground)" stroke="var(--ink)" stroke-width="9"></circle>
+							<text class="label" y="-42" text-anchor="middle">{r.who}</text>
+						</g>
+					))
+				}
+				{
+					routes
+						.filter((r) => r.item)
+						.map((r) => (
+							<g class="pulse" data-route={r.id} data-item={r.item} data-who={r.who}>
+								<image href={`/products/${r.icon}.svg`} x="-24" y="-24" width="48" height="48" clip-path="url(#icon-clip)"></image>
+							</g>
+						))
+				}
+			</svg>
+			<div class="phone-wrap">
+				<Phone width="52cqw">
+					<ListScreen hero />
+				</Phone>
+			</div>
 		</div>
 	</div>
 </section>
@@ -55,82 +74,89 @@ const tiles = [
 <style>
 	.hero {
 		position: relative;
-		overflow: hidden;
-		background: var(--green-field);
-		color: var(--on-green);
-		padding-top: clamp(6.5rem, 14vh, 9rem);
-		text-align: center;
+		overflow: clip;
+		padding-top: 5.5rem;
+	}
+	.grid {
+		display: grid;
+		gap: 2rem;
 	}
 	.copy {
-		position: relative;
-		z-index: 2;
 		display: grid;
-		justify-items: center;
-		gap: 1.5rem;
+		justify-items: start;
+		align-content: center;
+		gap: 1.4rem;
 	}
 	h1 {
-		font-size: var(--step-4);
-		max-width: 13ch;
-		line-height: 0.95;
-		letter-spacing: -0.05em;
+		font-size: min(var(--step-4), 5.6rem);
+		max-width: 11.5ch;
+		line-height: 1;
 	}
 	.copy p {
-		max-width: 34rem;
+		max-width: 31rem;
 		font-size: var(--step-1);
-		line-height: 1.45;
+		line-height: 1.4;
 		font-weight: 500;
-		color: var(--on-green);
+		color: var(--ink-soft);
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 0.4rem;
 	}
 
 	.stage {
+		margin-top: -14cqw;
 		position: relative;
-		height: clamp(25rem, 46vw, 34rem);
-		margin-top: clamp(1.5rem, 4vw, 3rem);
+		container-type: inline-size;
+		aspect-ratio: 1000 / 920;
+		width: 100%;
+	}
+	.map {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+	}
+	.label {
+		font-family: var(--display);
+		font-size: 30px;
+		font-weight: 800;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		fill: var(--ink);
+	}
+	.halo {
+		opacity: 0;
+	}
+	.pulse {
+		opacity: 0;
 	}
 	.phone-wrap {
 		position: absolute;
-		left: 50%;
-		top: 0;
-		translate: -50% 0;
+		left: 30cqw;
+		top: 25cqw;
 		z-index: 1;
 	}
 
-	.tile {
-		position: absolute;
-		z-index: 2;
-		width: calc(clamp(3.4rem, 7vw, 5.6rem) * var(--s));
-		translate: -50% 0;
-		rotate: var(--r);
-	}
-	.tile img {
-		width: 100%;
-		border-radius: 24%;
-		box-shadow: 0 1rem 2rem -0.6rem rgb(8 40 22 / 0.45);
-		animation: bob 7s ease-in-out infinite;
-		animation-delay: var(--d);
-	}
-	@keyframes bob {
-		50% {
-			transform: translateY(-0.6rem);
+	@media (min-width: 60rem) {
+		.stage {
+			margin-top: 0;
 		}
-	}
-
-	/* On a phone the ambient scenery would sit on top of the headline copy. */
-	@media (max-width: 52rem) {
-		.ambient {
-			display: none;
+		.hero {
+			padding-top: 0;
 		}
-		.tile[data-tile='Milk'] {
-			left: 12%;
-			top: 8%;
+		.grid {
+			grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+			align-items: end;
+			column-gap: clamp(1rem, 3vw, 3rem);
+			min-height: clamp(36rem, 92svh, 50rem);
 		}
-		.tile[data-tile='Bananas'] {
-			left: 88%;
-			top: 4%;
-		}
-		.tile[data-tile='Cheese'] {
-			left: 88%;
-			top: 52%;
+		.copy {
+			align-self: center;
+			padding-block: 6rem 3rem;
 		}
 	}
 </style>

@@ -1,21 +1,18 @@
 ---
 import { site } from '../../config';
-interface Props {
-	tone?: 'green' | 'paper';
-}
-const { tone = 'paper' } = Astro.props;
 ---
 
-<header class:list={['header', tone]}>
+<header class="header">
 	<div class="wrap bar">
 		<a href="/" class="logo" aria-label="Bagful, home">
 			<img src="/icons/pwa-192.png" alt="" width="36" height="36" />
 			<span>Bagful</span>
 		</a>
 		<nav aria-label="Main">
-			<a href="/#how">How it works</a>
-			<a href="/#why">Why Bagful</a>
-			<a href={site.appUrl} class="pill" rel="noopener">Open the web app</a>
+			<a class="sign stop-link" href="/#how">How it works</a>
+			<a class="sign stop-link" href="/#why">Why Bagful</a>
+			<a class="plaque line small dl" href={site.downloadUrl} rel="noopener">Download the app</a>
+			<a class="plaque small" href={site.appUrl} rel="noopener">Open the web app</a>
 		</nav>
 	</div>
 </header>
@@ -25,9 +22,6 @@ const { tone = 'paper' } = Astro.props;
 		position: absolute;
 		inset: 0 0 auto 0;
 		z-index: 20;
-	}
-	.green {
-		color: var(--on-green);
 	}
 	.bar {
 		display: flex;
@@ -41,8 +35,8 @@ const { tone = 'paper' } = Astro.props;
 		gap: 0.6rem;
 		text-decoration: none;
 		font-weight: 800;
-		font-size: 1.25rem;
-		letter-spacing: -0.03em;
+		font-size: 1.3rem;
+		letter-spacing: -0.04em;
 	}
 	.logo img {
 		border-radius: 10px;
@@ -50,30 +44,25 @@ const { tone = 'paper' } = Astro.props;
 	nav {
 		display: flex;
 		align-items: center;
-		gap: 1.75rem;
-		font-weight: 600;
-		font-size: var(--step--1);
+		gap: 1.5rem;
 	}
-	nav a {
+	.stop-link {
 		text-decoration: none;
+		padding-block: 0.5rem;
+		border-bottom: 3px solid transparent;
+		transition: border-color 0.2s var(--ease);
 	}
-	nav a:not(.pill):hover {
-		text-decoration: underline;
-		text-underline-offset: 0.3em;
+	.stop-link:hover {
+		border-color: var(--route-home);
 	}
-	.pill {
-		padding: 0.55rem 1.05rem;
-		border-radius: 999px;
-		background: var(--cream);
-		color: var(--green-ink);
-		box-shadow: 0 0 0 1px var(--cream-edge);
-		transition: transform 0.2s var(--ease);
+	.small {
+		min-height: 2.75rem;
+		padding: 0.5rem 1.1rem 0.5rem 0.9rem;
+		font-size: 0.92rem;
 	}
-	.pill:hover {
-		transform: translateY(-2px);
-	}
-	@media (max-width: 40rem) {
-		nav a:not(.pill) {
+	@media (max-width: 52rem) {
+		.stop-link,
+		.dl {
 			display: none;
 		}
 	}

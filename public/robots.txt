@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bagful-web.vercel.app/sitemap-index.xml
