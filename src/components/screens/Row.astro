@@ -1,0 +1,26 @@
+---
+interface Props {
+	icon: string;
+	name: string;
+	qty?: string;
+	done?: boolean;
+	/** Rows the hero adds with a script; the HTML ships them so no-JS shows the finished list. */
+	late?: boolean;
+}
+const { icon, name, qty, done = false, late = false } = Astro.props;
+---
+
+<li class:list={['ui-row', { 'is-done': done }]} data-late={late ? '' : undefined} data-name={name}>
+	<div class="ui-row-in">
+		<div class="ui-row-card">
+			<img src={`/products/${icon}.svg`} alt="" width="64" height="64" />
+			<span class="ui-row-text">
+				{name}
+				{qty && <small>{qty}</small>}
+			</span>
+			<span class="ui-check">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+			</span>
+		</div>
+	</div>
+</li>

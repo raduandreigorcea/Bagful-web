@@ -1,0 +1,19 @@
+---
+import '../styles/phone-ui.css';
+
+interface Props {
+	/** Phone width, any CSS length. Everything inside scales with it. */
+	width?: string;
+	class?: string;
+}
+const { width, class: className } = Astro.props;
+---
+
+<div class:list={['phone', className]} style={width ? `--pw:${width}` : undefined} aria-hidden="true">
+	<div class="phone-frame">
+		<div class="phone-glass">
+			<div class="phone-island"></div>
+			<slot />
+		</div>
+	</div>
+</div>

@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page not found" noindex>
+	<section class="nf wrap">
+		<h1>That page isn't on the list.</h1>
+		<p><a href="/">Back to the home page</a></p>
+	</section>
+</Layout>
+
+<style>
+	.nf {
+		min-height: 70vh;
+		display: grid;
+		align-content: center;
+		justify-items: start;
+		gap: 1.2rem;
+		padding-block: 8rem 4rem;
+	}
+	h1 {
+		font-size: var(--step-3);
+		max-width: 14ch;
+	}
+	a {
+		font-weight: 700;
+	}
+</style>

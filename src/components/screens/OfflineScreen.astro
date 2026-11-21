@@ -1,0 +1,49 @@
+---
+import Row from './Row.astro';
+---
+
+<div class="ui-screen">
+	<div class="ui-top">
+		<span class="ui-status"><span>17:56</span><span>No signal</span></span>
+		<div class="ui-top-row">
+			<div>
+				<h4>Home</h4>
+				<small>Supermarket basement</small>
+			</div>
+			<span class="ui-offline">Offline</span>
+		</div>
+	</div>
+	<p class="ui-banner">You're offline. Everything you do now syncs when the signal is back.</p>
+	<ul class="ui-list">
+		<Row icon="olive-oil" name="Olive oil" qty="added just now" />
+		<Row icon="pasta" name="Pasta" qty="2 packs" done />
+		<Row icon="tomato" name="Tomatoes" qty="1 kg" done />
+		<Row icon="cheese" name="Cheese" qty="200 g" />
+	</ul>
+	<div class="ui-add">
+		<span class="ui-add-field">Add an item</span>
+		<span class="ui-add-disc">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+		</span>
+	</div>
+</div>
+
+<style is:global>
+	.ui-offline {
+		padding: 0.35em 0.8em;
+		border-radius: 999px;
+		background: var(--honey);
+		color: var(--green-ink);
+		font-size: 0.8em;
+		font-weight: 800;
+	}
+	.ui-banner {
+		margin: 0.8em 0.8em 0;
+		padding: 0.7em 0.9em;
+		border-radius: 0.9em;
+		background: #fbeccd;
+		color: #6b4a12;
+		font-size: 0.84em;
+		font-weight: 600;
+	}
+</style>

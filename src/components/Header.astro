@@ -1,86 +1,80 @@
 ---
-import Icon from './Icon.astro';
-
-export interface Props {
-	class?: string;
-	siteName?: string;
+import { site } from '../../config';
+interface Props {
+	tone?: 'green' | 'paper';
 }
-
-const { class: className, siteName } = Astro.props;
+const { tone = 'paper' } = Astro.props;
 ---
 
-<header class={className}>
-	<div class="container">
-		<a href="/" class="logo">
-			<span>{siteName}</span>
+<header class:list={['header', tone]}>
+	<div class="wrap bar">
+		<a href="/" class="logo" aria-label="Bagful, home">
+			<img src="/icons/pwa-192.png" alt="" width="36" height="36" />
+			<span>Bagful</span>
 		</a>
-		
-		<nav class="nav">
-			<a href="/">Home</a>
-			<a href="/">X</a>
-			<a href="/">Y</a>
-			<a href="/">Z</a>
+		<nav aria-label="Main">
+			<a href="/#how">How it works</a>
+			<a href="/#why">Why Bagful</a>
+			<a href={site.appUrl} class="pill" rel="noopener">Open the web app</a>
 		</nav>
-
-		<button class="menu-toggle" aria-label="Toggle menu">
-			<Icon name="menu" />
-		</button>
 	</div>
 </header>
 
 <style>
-	header {
-		position: sticky;
-		top: 0;
-		border-bottom: 1px solid var(--color-border);
-		background-color: var(--color-background);
+	.header {
+		position: absolute;
+		inset: 0 0 auto 0;
+		z-index: 20;
 	}
-
-	.container {
-		max-width: var(--max-width);
-		margin-inline: auto;
-		padding: var(--space-md);
+	.green {
+		color: var(--on-green);
+	}
+	.bar {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		padding-block: 1.1rem;
 	}
-
 	.logo {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
 		text-decoration: none;
-		color: var(--color-text);
-		font-weight: 700;
+		font-weight: 800;
+		font-size: 1.25rem;
+		letter-spacing: -0.03em;
 	}
-
-	.nav {
+	.logo img {
+		border-radius: 10px;
+	}
+	nav {
 		display: flex;
-		gap: var(--space-lg);
+		align-items: center;
+		gap: 1.75rem;
+		font-weight: 600;
+		font-size: var(--step--1);
 	}
-
-	.nav a {
+	nav a {
 		text-decoration: none;
-		color: var(--color-secondary);
-		transition: color var(--transition);
 	}
-
-	.nav a:hover {
-		color: var(--color-text);
+	nav a:not(.pill):hover {
+		text-decoration: underline;
+		text-underline-offset: 0.3em;
 	}
-
-	.menu-toggle {
-		display: none;
-		background: none;
-		border: none;
-		cursor: pointer;
-		padding: var(--space-sm);
+	.pill {
+		padding: 0.55rem 1.05rem;
+		border-radius: 999px;
+		background: var(--cream);
+		color: var(--green-ink);
+		box-shadow: 0 0 0 1px var(--cream-edge);
+		transition: transform 0.2s var(--ease);
 	}
-
-	@media (max-width: 768px) {
-		.nav {
+	.pill:hover {
+		transform: translateY(-2px);
+	}
+	@media (max-width: 40rem) {
+		nav a:not(.pill) {
 			display: none;
-		}
-
-		.menu-toggle {
-			display: block;
 		}
 	}
 </style>

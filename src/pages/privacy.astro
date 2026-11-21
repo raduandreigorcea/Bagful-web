@@ -1,0 +1,45 @@
+---
+import Legal from '../layouts/Legal.astro';
+---
+
+<Legal title="Privacy" updated="21 November 2026">
+	<p>
+		This explains what Bagful keeps about you and who helps it do that. Bagful is a shared shopping list, so most of
+		what it holds is the lists you and the people you shop with write.
+	</p>
+
+	<h2>What Bagful stores</h2>
+	<ul>
+		<li>Your account: the sign-in details you give when you create an account, held by our sign-in provider.</li>
+		<li>Your lists: list names, items, quantities, who added or ticked off what, and your purchase history.</li>
+		<li>Who is on a list: members of a list can see each other's names and what each person added.</li>
+		<li>Your device for notifications, if you turn them on, so a phone can be told when something changes.</li>
+	</ul>
+
+	<h2>Who handles it</h2>
+	<ul>
+		<li>Sign-in is handled by Clerk.</li>
+		<li>Lists and history are stored in a Supabase database.</li>
+		<li>Push notifications are delivered by OneSignal.</li>
+		<li>
+			Usage statistics are collected with PostHog, hosted in the EU. They are used to see which parts of the app
+			work and which do not, and personal details are removed before they are sent.
+		</li>
+	</ul>
+
+	<h2>What you control</h2>
+	<ul>
+		<li>You can leave a list, or delete it if you own it.</li>
+		<li>You can turn notifications off in the app or in your phone's settings.</li>
+		<li>You can ask for your account and its data to be deleted.</li>
+	</ul>
+
+	<h2>Selling and ads</h2>
+	<p>Bagful does not sell your data and shows no ads.</p>
+
+	<h2>Questions</h2>
+	<p>
+		Open an issue on <a href="https://github.com/raduandreigorcea/Bagful/issues" rel="noopener">GitHub</a> and we will
+		answer there.
+	</p>
+</Legal>

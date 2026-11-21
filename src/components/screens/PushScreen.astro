@@ -1,0 +1,85 @@
+---
+---
+
+<div class="ui-screen ui-lock">
+	<span class="ui-status"><span></span><span>5G</span></span>
+	<p class="ui-lock-time">9:41</p>
+	<div class="ui-notes">
+		<div class="ui-note">
+			<img src="/icons/pwa-192.png" alt="" width="40" height="40" />
+			<div>
+				<b>Bagful <span>now</span></b>
+				<p>Radu added Milk</p>
+			</div>
+		</div>
+		<div class="ui-note">
+			<img src="/icons/pwa-192.png" alt="" width="40" height="40" />
+			<div>
+				<b>Bagful <span>2 min ago</span></b>
+				<p>Radu bought Milk, Eggs and 2 more</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style is:global>
+	.ui-lock {
+		background: url('/screen.webp') center / cover;
+		color: var(--green-ink);
+	}
+	.ui-lock-time {
+		margin: 4.6em 0 0;
+		text-align: center;
+		font-size: 4.4em;
+		font-weight: 800;
+		letter-spacing: -0.05em;
+		line-height: 1;
+	}
+	.ui-notes {
+		margin: 3.2em 0.8em 0;
+		display: grid;
+		gap: 0.6em;
+	}
+	.ui-note {
+		display: flex;
+		gap: 0.7em;
+		padding: 0.8em;
+		border-radius: 1.1em;
+		background: rgb(251 247 240 / 0.88);
+		backdrop-filter: blur(0.6em);
+		box-shadow: 0 0.2em 0.8em rgb(18 53 36 / 0.12);
+	}
+	.ui-note img {
+		width: 2.5em;
+		height: 2.5em;
+		border-radius: 0.6em;
+		flex: none;
+	}
+	.ui-note b {
+		display: flex;
+		justify-content: space-between;
+		font-size: 0.82em;
+	}
+	.ui-note b span {
+		font-weight: 500;
+		color: var(--text-soft);
+	}
+	.ui-note p {
+		margin-top: 0.1em;
+		font-size: 0.98em;
+		font-weight: 600;
+		line-height: 1.25;
+	}
+	.is-live .ui-note {
+		animation: ui-note-in 0.7s var(--ease) both;
+	}
+	.is-live .ui-note:nth-child(2) {
+		animation-delay: 0.45s;
+	}
+	@keyframes ui-note-in {
+		from {
+			opacity: 0;
+			transform: translateY(-1.2em) scale(0.97);
+		}
+	}
+</style>

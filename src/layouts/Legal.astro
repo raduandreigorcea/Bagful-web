@@ -1,0 +1,48 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+	title: string;
+	updated: string;
+}
+const { title, updated } = Astro.props;
+---
+
+<Layout title={title} description={`${title} for Bagful, the shared shopping list.`}>
+	<article class="legal wrap">
+		<h1>{title}</h1>
+		<p class="updated">Last updated {updated}</p>
+		<slot />
+	</article>
+</Layout>
+
+<style is:global>
+	.legal {
+		max-width: 44rem;
+		padding-block: 8rem 5rem;
+	}
+	.legal h1 {
+		font-size: var(--step-3);
+	}
+	.legal .updated {
+		margin-top: 0.75rem;
+		color: var(--text-soft);
+		font-size: var(--step--1);
+	}
+	.legal h2 {
+		margin-top: 2.5rem;
+		font-size: var(--step-1);
+		letter-spacing: -0.025em;
+	}
+	.legal p,
+	.legal ul {
+		margin-top: 0.9rem;
+		line-height: 1.65;
+	}
+	.legal ul {
+		padding-left: 1.2rem;
+	}
+	.legal a {
+		text-underline-offset: 0.2em;
+	}
+</style>

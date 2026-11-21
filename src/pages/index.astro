@@ -1,18 +1,16 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Button from "../components/Button.astro";
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import How from '../components/How.astro';
+import Why from '../components/Why.astro';
+import Details from '../components/Details.astro';
+import Closing from '../components/Closing.astro';
 ---
 
-<Layout>
-	<main>
-		<section class="examples">
-
-			<Button icon="cart">Add to Cart</Button>
-
-			<Button icon="palette">Choose Color</Button>
-
-			<Button icon="menu">Menu</Button>
-
-		</section>
-	</main>
+<Layout tone="green">
+	<Hero />
+	<How />
+	<Why />
+	<Details />
+	<Closing />
 </Layout>

@@ -1,0 +1,150 @@
+---
+import Row from './screens/Row.astro';
+
+const chat = [
+	{ who: 'Mara', text: 'milk?', side: 'in' },
+	{ who: 'Andrei', text: 'got milk', side: 'out' },
+	{ who: 'Mara', text: 'omg I got milk too', side: 'in' },
+	{ who: 'Radu', text: 'wait who has the list', side: 'in' },
+	{ who: 'Andrei', text: 'scroll up', side: 'out' },
+	{ who: 'Mara', text: 'that’s now 3 jars of pickles', side: 'in' },
+];
+---
+
+<section class="why" id="why" aria-labelledby="why-title">
+	<div class="wrap">
+		<h2 id="why-title">Group chats are terrible shopping lists.</h2>
+		<p class="lede">
+			Messages scroll away, nobody knows what has already been bought, and the one time you don’t check, you come
+			home with the third jar of pickles this week.
+		</p>
+
+		<div class="compare">
+			<figure class="chat">
+				<div class="chat-box" aria-hidden="true">
+					<p class="chat-title">Flat 4B 🛒</p>
+					{
+						chat.map((m) => (
+							<p class:list={['bubble', m.side]}>
+								{m.side === 'in' && <b>{m.who}</b>}
+								{m.text}
+							</p>
+						))
+					}
+				</div>
+				<figcaption>A group chat: who has the list, and what is on it?</figcaption>
+			</figure>
+
+			<figure class="list">
+				<div class="mini" aria-hidden="true">
+					<ul>
+						<Row icon="milk" name="Milk" qty="bought by Andrei" done />
+						<Row icon="egg" name="Eggs" qty="12" />
+						<Row icon="bread" name="Bread" />
+						<Row icon="pasta" name="Pasta" qty="2 packs" />
+					</ul>
+				</div>
+				<figcaption>Bagful: one list, with everything already bought crossed off.</figcaption>
+			</figure>
+		</div>
+	</div>
+</section>
+
+<style>
+	.why {
+		padding-block: clamp(4rem, 9vw, 8rem);
+	}
+	h2 {
+		font-size: var(--step-3);
+		max-width: 17ch;
+	}
+	.lede {
+		margin-top: 1.5rem;
+		max-width: 38rem;
+		font-size: var(--step-1);
+		line-height: 1.45;
+		color: var(--text-soft);
+	}
+	.compare {
+		margin-top: clamp(2.5rem, 6vw, 4.5rem);
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: clamp(1.5rem, 4vw, 3.5rem);
+		align-items: start;
+	}
+	figure {
+		margin: 0;
+		display: grid;
+		gap: 1.1rem;
+	}
+	figcaption {
+		font-weight: 600;
+		color: var(--text-soft);
+		font-size: var(--step--1);
+	}
+
+	.chat-box {
+		display: grid;
+		gap: 0.55rem;
+		padding: 1.4rem;
+		border-radius: 1.8rem;
+		background: #e8e4dd;
+		min-height: 24rem;
+		align-content: start;
+	}
+	.chat-title {
+		font-weight: 800;
+		margin-bottom: 0.4rem;
+	}
+	.bubble {
+		max-width: 80%;
+		padding: 0.6rem 0.95rem;
+		border-radius: 1.15rem;
+		background: #fff;
+		font-size: var(--step--1);
+		line-height: 1.35;
+	}
+	.bubble b {
+		display: block;
+		font-size: 0.78em;
+		color: var(--green-deep);
+	}
+	.bubble.out {
+		justify-self: end;
+		background: var(--leaf);
+	}
+	.bubble:nth-child(odd) {
+		rotate: -0.6deg;
+	}
+	.bubble:nth-child(even) {
+		rotate: 0.5deg;
+	}
+
+	.mini {
+		min-height: 24rem;
+		padding: 1.4rem;
+		border-radius: 1.8rem;
+		background: var(--green);
+		display: grid;
+		align-content: start;
+		font-size: 1.08rem;
+	}
+	.mini ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.mini :global(.ui-row-card) {
+		padding: 0.6em 0.9em 0.6em 0.6em;
+	}
+
+	@media (max-width: 48rem) {
+		.compare {
+			grid-template-columns: 1fr;
+		}
+		.chat-box,
+		.mini {
+			min-height: 0;
+		}
+	}
+</style>

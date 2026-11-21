@@ -1,0 +1,266 @@
+/* The app, redrawn in HTML so it stays sharp at any size and can move.
+   Everything inside a phone is sized in em, and .ui-screen sets its font-size
+   from the phone's own width (cqw, against .phone's container), so one phone
+   scales as a unit from a 220px mobile mockup to a 340px hero. */
+
+.phone {
+	container-type: inline-size;
+	width: var(--pw, 18.75rem);
+	aspect-ratio: 9 / 18.6;
+	position: relative;
+}
+
+.phone-frame {
+	position: absolute;
+	inset: 0;
+	border-radius: 13cqw;
+	background: #0d2218;
+	padding: 2.6cqw;
+	box-shadow:
+		0 0 0 0.4cqw #2a4a39,
+		0 6cqw 12cqw -3cqw rgb(8 30 18 / 0.45);
+}
+
+.phone-glass {
+	position: relative;
+	height: 100%;
+	border-radius: 10.6cqw;
+	overflow: hidden;
+	background: var(--paper);
+	isolation: isolate;
+}
+
+.phone-island {
+	position: absolute;
+	z-index: 5;
+	top: 3.2cqw;
+	left: 50%;
+	width: 28cqw;
+	height: 8cqw;
+	transform: translateX(-50%);
+	border-radius: 999px;
+	background: #0d2218;
+}
+
+.ui-screen {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	font-size: 4.4cqw;
+	line-height: 1.25;
+	text-align: left;
+	color: var(--text);
+	background: var(--paper);
+}
+
+.ui-top {
+	background: var(--green);
+	color: #fff;
+	padding: 3.6em 1.15em 1.05em;
+}
+.ui-top-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.ui-top h4 {
+	margin: 0;
+	font-size: 1.55em;
+	font-weight: 800;
+	letter-spacing: -0.03em;
+}
+.ui-top small {
+	display: block;
+	margin-top: 0.15em;
+	font-size: 0.82em;
+	font-weight: 500;
+	opacity: 0.85;
+}
+.ui-status {
+	position: absolute;
+	top: 1.05em;
+	left: 1.7em;
+	right: 1.7em;
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.85em;
+	font-weight: 700;
+	color: #fff;
+}
+
+.ui-avatars {
+	display: flex;
+}
+.ui-avatars span {
+	display: grid;
+	place-items: center;
+	width: 1.9em;
+	height: 1.9em;
+	margin-left: -0.5em;
+	border-radius: 50%;
+	border: 0.15em solid var(--green);
+	font-size: 0.78em;
+	font-weight: 800;
+	color: var(--green-ink);
+}
+.ui-avatars span:first-child {
+	margin-left: 0;
+}
+
+.ui-list {
+	flex: 1;
+	min-height: 0;
+	margin: 0;
+	padding: 0.8em 0.8em 0;
+	list-style: none;
+	overflow: hidden;
+}
+
+.ui-row {
+	display: grid;
+	grid-template-rows: 1fr;
+}
+.ui-row-in {
+	min-height: 0;
+	overflow: hidden;
+	padding-bottom: 0.5em;
+}
+.ui-row-card {
+	display: flex;
+	align-items: center;
+	gap: 0.7em;
+	padding: 0.5em 0.7em 0.5em 0.5em;
+	border-radius: 1em;
+	background: #fff;
+	box-shadow: 0 0.05em 0 rgb(18 53 36 / 0.06);
+}
+.ui-row-card img {
+	width: 2.6em;
+	height: 2.6em;
+	flex: none;
+	border-radius: 0.75em;
+}
+.ui-row-text {
+	flex: 1;
+	min-width: 0;
+	font-weight: 700;
+	font-size: 1.05em;
+}
+.ui-row-text small {
+	display: block;
+	font-size: 0.78em;
+	font-weight: 500;
+	color: var(--text-soft);
+}
+.ui-check {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 1.55em;
+	height: 1.55em;
+	border-radius: 50%;
+	border: 0.14em solid #c9d6ce;
+	color: #fff;
+	transition:
+		background 0.3s var(--ease),
+		border-color 0.3s var(--ease);
+}
+.ui-check svg {
+	width: 0.9em;
+	height: 0.9em;
+	opacity: 0;
+	transform: scale(0.4);
+	transition:
+		opacity 0.25s,
+		transform 0.35s var(--ease);
+}
+.ui-row.is-done .ui-check {
+	background: var(--green);
+	border-color: var(--green);
+}
+.ui-row.is-done .ui-check svg {
+	opacity: 1;
+	transform: none;
+}
+.ui-row.is-done .ui-row-text {
+	opacity: 0.5;
+	text-decoration: line-through;
+	text-decoration-thickness: 0.08em;
+}
+.ui-row.is-new {
+	animation: ui-row-in 0.7s var(--ease) both;
+}
+@keyframes ui-row-in {
+	from {
+		grid-template-rows: 0fr;
+		opacity: 0;
+	}
+	to {
+		grid-template-rows: 1fr;
+		opacity: 1;
+	}
+}
+
+.ui-add {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	padding: 0.6em 0.8em 1.7em;
+	background: linear-gradient(to top, var(--paper) 70%, transparent);
+}
+.ui-add-field {
+	flex: 1;
+	padding: 0.75em 1em;
+	border-radius: 999px;
+	background: #fff;
+	font-size: 0.95em;
+	color: #8aa093;
+	box-shadow: inset 0 0 0 0.08em #e4ded5;
+}
+.ui-add-disc {
+	display: grid;
+	place-items: center;
+	width: 2.7em;
+	height: 2.7em;
+	border-radius: 50%;
+	background: var(--green);
+	color: #fff;
+}
+.ui-add-disc svg {
+	width: 1.2em;
+	height: 1.2em;
+}
+
+/* Toast that drops in from the top of the glass. */
+.ui-toast {
+	position: absolute;
+	z-index: 4;
+	top: 3.4em;
+	left: 0.8em;
+	right: 0.8em;
+	display: flex;
+	align-items: center;
+	gap: 0.7em;
+	padding: 0.7em 0.9em;
+	border-radius: 1.1em;
+	background: var(--green-ink);
+	color: #fff;
+	font-weight: 700;
+	font-size: 0.95em;
+	opacity: 0;
+	transform: translateY(-1.5em) scale(0.96);
+	transition:
+		opacity 0.4s var(--ease),
+		transform 0.5s var(--ease);
+	pointer-events: none;
+}
+.ui-toast.is-shown {
+	opacity: 1;
+	transform: none;
+}
+.ui-toast img {
+	width: 1.9em;
+	height: 1.9em;
+	border-radius: 0.5em;
+}

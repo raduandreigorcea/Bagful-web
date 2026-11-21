@@ -1,0 +1,72 @@
+---
+import Row from './Row.astro';
+---
+
+<div class="ui-screen">
+	<div class="ui-top">
+		<span class="ui-status"><span>10:12</span><span>5G</span></span>
+		<div class="ui-top-row">
+			<div>
+				<h4>Home</h4>
+				<small>In the shop</small>
+			</div>
+		</div>
+	</div>
+	<ul class="ui-list">
+		<Row icon="egg" name="Eggs" qty="12" done />
+		<Row icon="bread" name="Bread" done />
+		<Row icon="milk" name="Milk" qty="2" done />
+		<Row icon="tomato" name="Tomatoes" qty="1 kg" />
+		<Row icon="cheese" name="Cheese" qty="200 g" />
+	</ul>
+	<div class="ui-slide">
+		<span class="ui-slide-label">Slide to buy 3 items</span>
+		<span class="ui-knob">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+		</span>
+	</div>
+</div>
+
+<style is:global>
+	.ui-slide {
+		position: relative;
+		margin: 0 0.8em 1.7em;
+		height: 3.4em;
+		border-radius: 999px;
+		background: var(--green);
+		color: #fff;
+		display: grid;
+		place-items: center;
+		font-weight: 700;
+		font-size: 0.98em;
+		padding-left: 2.4em;
+	}
+	.ui-knob {
+		position: absolute;
+		left: 0.3em;
+		top: 0.3em;
+		display: grid;
+		place-items: center;
+		width: 2.8em;
+		height: 2.8em;
+		border-radius: 50%;
+		background: #fff;
+		color: var(--green);
+	}
+	.ui-knob svg {
+		width: 1.2em;
+		height: 1.2em;
+	}
+	.is-live .ui-knob {
+		animation: ui-slide 2.2s 0.5s var(--ease) both;
+	}
+	@keyframes ui-slide {
+		0% {
+			transform: none;
+		}
+		70%,
+		100% {
+			transform: translateX(calc(var(--slide-run, 16.5em)));
+		}
+	}
+</style>
